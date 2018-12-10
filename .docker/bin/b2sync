@@ -6,7 +6,7 @@ if [[ ! -z "${SYNC_JOB}" ]] && [[ "${SYNC_JOB}" != "${SYNC_JOB}" ]]; then
     exit 0
 fi
 
-if [[ ! -z "${VERBOSE}" ]]; then
+if [[ "${VERBOSE}" == "1" ]]; then
     echo "B2SYNC: LOG: ${B2_BUCKET}"
 fi
 
@@ -20,7 +20,7 @@ if [[ ! -z "${B2_BUCKET}" ]]; then
         source fileenv B2_KEY
     fi
 
-    if [[ ! -z "${VERBOSE}" ]]; then
+    if [[ "${VERBOSE}" == "1" ]]; then
         echo "B2SYNC: LOG: ${B2_ACCOUNT}"
         echo "B2SYNC: LOG: ${B2_KEY}"
         echo "B2SYNC: LOG: ${B2_SYNC_SRC}"
