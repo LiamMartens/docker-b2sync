@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# get credentials from env or file env
+if [[ -z "${B2_ACCOUNT}" ]]; then
+    B2_ACCOUNT=$(fileenv B2_ACCOUNT)
+fi
+
+if [[ -z "${B2_KEY}" ]]; then
+    B2_KEY=$(fileenv B2_KEY)
+fi
+
+# authorize
+b2 authorize-account ${B2_ACCOUNT} ${B2_KEY}

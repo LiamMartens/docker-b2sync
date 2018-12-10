@@ -1,0 +1,29 @@
+#!/bin/bash
+SYNC_JOB=$(ps -A | grep b2sync | awk '{print $1}')
+
+if [[ ! -z "${SYNC_JOB}" ]] && [[ "${SYNC_JOB}" != "${SYNC_JOB}" ]]; then
+    echo "B2SYNC: JOB ALREADY RUNNING"
+    exit 0
+fi
+
+if [[ ! -z "${B2_BUCKET}" ]]; then
+    BUCKET_EXISTS=$(b2 list-buckets | grep ${B2_BUCKET})
+    if [[ -z "${BUCKET_EXISTS}" ]]; then
+        b2 create-bucket ${B2_BUCKET} allPrivate
+    fi
+
+    if [[ ! -z "${B2_SYNC_SRC}" ]]; then
+        if [[ ! -z "${B2_SYNC_DEST}" ]]; then
+            b2 sync ${B2_SYNC_SRC} "b2://${B2_BUCKET}${B2_SYNC_DEST}"
+        else
+            echo "B2SYNC: SPECIFY A DEST DIR"
+            exit 2
+        fi
+    else 
+        echo "B2SYNC: SPECIFY A SRC DIR"
+        exit 2
+    fi
+else
+    echo "B2SYNC: SPECIFY A BUCKET NAME"
+    exit 1
+fi
