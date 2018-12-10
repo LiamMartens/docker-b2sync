@@ -3,6 +3,8 @@
 Use the environment variables to configure the image.
 * `CRON_LOGLEVEL`
   * Defines the logging level of the cron daemon
+* `VERBOSE`
+  * Set to non-empty to enable verbose logging
 * `B2_ACCOUNT`
   * Defines the B2 account key
   * Can use `B2_ACCOUNT_FILE`

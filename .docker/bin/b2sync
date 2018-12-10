@@ -6,6 +6,10 @@ if [[ ! -z "${SYNC_JOB}" ]] && [[ "${SYNC_JOB}" != "${SYNC_JOB}" ]]; then
     exit 0
 fi
 
+if [[ ! -z "${VERBOSE}" ]]; then
+    echo "B2SYNC: LOG: ${B2_BUCKET}"
+fi
+
 if [[ ! -z "${B2_BUCKET}" ]]; then
     # get credentials from env or file env
     if [[ -z "${B2_ACCOUNT}" ]]; then
@@ -14,6 +18,13 @@ if [[ ! -z "${B2_BUCKET}" ]]; then
 
     if [[ -z "${B2_KEY}" ]]; then
         source fileenv B2_KEY
+    fi
+
+    if [[ ! -z "${VERBOSE}" ]]; then
+        echo "B2SYNC: LOG: ${B2_ACCOUNT}"
+        echo "B2SYNC: LOG: ${B2_KEY}"
+        echo "B2SYNC: LOG: ${B2_SYNC_SRC}"
+        echo "B2SYNC: LOG: ${B2_SYNC_DEST}"
     fi
 
     # authorize
