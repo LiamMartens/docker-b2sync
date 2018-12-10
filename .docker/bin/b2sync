@@ -9,11 +9,11 @@ fi
 if [[ ! -z "${B2_BUCKET}" ]]; then
     # get credentials from env or file env
     if [[ -z "${B2_ACCOUNT}" ]]; then
-        B2_ACCOUNT=$(fileenv B2_ACCOUNT)
+        source fileenv B2_ACCOUNT
     fi
 
     if [[ -z "${B2_KEY}" ]]; then
-        B2_KEY=$(fileenv B2_KEY)
+        source fileenv B2_KEY
     fi
 
     # authorize
