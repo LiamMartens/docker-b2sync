@@ -20,6 +20,11 @@ if [[ ! -z "${B2_BUCKET}" ]]; then
         source fileenv B2_KEY
     fi
 
+    # assign defaults
+    export B2_SYNC_SRC="${B2_SYNC_SRC:-/sync}"
+    export B2_SYNC_DEST="${B2_SYNC_DEST:-/sync}"
+    export B2_SYNC_KEEPDAYS="${B2_SYNC_KEEPDAYS:-7}"
+
     if [[ "${VERBOSE}" == "1" ]]; then
         echo "B2SYNC: LOG: ${B2_ACCOUNT}"
         echo "B2SYNC: LOG: ${B2_KEY}"
@@ -39,7 +44,14 @@ if [[ ! -z "${B2_BUCKET}" ]]; then
     # do sync
     if [[ ! -z "${B2_SYNC_SRC}" ]]; then
         if [[ ! -z "${B2_SYNC_DEST}" ]]; then
-            b2 sync ${B2_SYNC_SRC} "b2://${B2_BUCKET}${B2_SYNC_DEST}"
+            b2 sync \
+                ${B2_SYNC_REPLACENEWER:+'--replaceNewer'} \
+                ${B2_SYNC_KEEPDAYS:+'--keepDays' "$B2_SYNC_KEEPDAYS"} \
+                ${B2_SYNC_EXCL_RX:+'--excludeRegex' "$B2_SYNC_EXCL_RX"} \
+                ${B2_SYNC_INCL_RX:+'--includeRegex' "$B2_SYNC_INCL_RX"} \
+                ${B2_SYNC_EXCLDIR_RX:+'--excludeDirRegex' "${B2_SYNC_EXCLDIR_RX}"} \
+                ${B2_SYNC_SRC} \
+                "b2://${B2_BUCKET}${B2_SYNC_DEST}"
         else
             echo "B2SYNC: SPECIFY A DEST DIR"
             exit 2
